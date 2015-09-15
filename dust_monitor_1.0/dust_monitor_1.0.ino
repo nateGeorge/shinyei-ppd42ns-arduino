@@ -1,7 +1,8 @@
 /* Grove - Dust Sensor Demo v1.0
  Interface to Shinyei Model PPD42NS Particle Sensor
- Program by Christopher Nafis 
+ Original Program by Christopher Nafis 
  Written April 2012
+ Updated by Nate G, 2014
  
  http://www.seeedstudio.com/depot/grove-dust-sensor-p-1050.html
  http://www.sca-shinyei.com/pdf/PPD42NS.pdf
@@ -18,6 +19,8 @@ Dylos Air Quality Chart - Small Count Reading (0.5 micron)+
 150-300    = GOOD
 75-150     = VERY GOOD
 0-75       = EXCELLENT
+
+The red, green, and blue pins are for an RGB LED.
  */
 
 int redpin = 9; // select the pin for the red LED
@@ -62,6 +65,7 @@ void loop() {
     lowpulseoccupancy = 0;
     starttime = millis();
 
+    // make the LED turn different colors depending on air quality regime
     if (smallConcentration > 3000.0) { // air quality is VERY POOR
       analogWrite(redpin, 255);
       analogWrite(greenpin, 0);
