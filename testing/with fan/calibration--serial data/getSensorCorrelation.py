@@ -59,12 +59,12 @@ result = pd.concat(frames,axis=1)
 result.to_csv(path_or_buf='concatd data - 2015-08-' + day + '.csv', index=False)'''
 
 # for loading 2 single files
-arduinoDataFile = 'correlation data/2015-09-21 12-49-11 arduino data - dsm501a.csv'
-dylosDataFile = 'correlation data/2015-09-21 12-49-14 dylos data.csv'
+arduinoDataFile = 'correlation data/2015-09-21 15-31-39 arduino data.csv'
+dylosDataFile = 'correlation data/2015-09-21 15-31-37 dylos data.csv'
 
 arduinoData = pd.read_csv(arduinoDataFile)
-rawRollingArduinoP1Ratio = pd.rolling_mean(np.array(arduinoData['P1 ratio']), 1)
-rawRollingArduinoP2Ratio = pd.rolling_mean(np.array(arduinoData['P2 ratio']), 1)
+rawRollingArduinoP1Ratio = pd.rolling_mean(np.array(arduinoData['P1 ratio']), 2)
+rawRollingArduinoP2Ratio = pd.rolling_mean(np.array(arduinoData['P2 ratio']), 2)
 for each in range(len(rawRollingArduinoP1Ratio)):
     print rawRollingArduinoP1Ratio[each], arduinoData['P1 ratio'][each]
     if math.isnan(rawRollingArduinoP1Ratio[each]):
@@ -77,7 +77,7 @@ arduinoTime = [(parse(eachTime) - datetime(1970, 1, 1)).total_seconds() for each
 dylosTime = [(parse(eachTime) - datetime(1970, 1, 1)).total_seconds() for eachTime in dylosData['time (iso)']]
 
 interpArduinoTime = interp(dylosTime, arduinoTime, arduinoTime)#arduinoData['1um'])
-interpArduinoP1Ratio = interp(dylosTime, arduinoTime, rawRollingArduinoP1Ratio)
+interpArduinoP1Ratio = interp(dylosTime, arduinoTime, rawRollingArduinoP1Ratio)  
 interpArduinoP2Ratio = interp(dylosTime, arduinoTime, rawRollingArduinoP2Ratio)
 rollingArduinoP1Ratio = pd.rolling_mean(np.array(interpArduinoP1Ratio), 20)
 rollingArduinoP2Ratio = pd.rolling_mean(np.array(interpArduinoP2Ratio), 20)
